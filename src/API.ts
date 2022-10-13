@@ -22,7 +22,7 @@ export const fetchQuizQuestions = async (
   difficulty: Difficulty
 ): Promise<QuestionsState[]> => {
   const endpoint = `https://opentdb.com/api.php?amount=${amount}&difficulty=${difficulty}&type=multiple`;
-  // try {
+
     const data = await (await fetch(endpoint)).json();
     return data?.results?.map((question: Question) => ({
       ...question,
@@ -31,12 +31,5 @@ export const fetchQuizQuestions = async (
         question.correct_answer,
       ]),
     }));
-  // } catch (error) {
-  //   console.log(error); 
-  //   // return err
-  //   let message;
-  //   if (error instanceof Error) message = error.message;
-  //   else message = String(error);
-  //   return message;
-  // }
+
 };

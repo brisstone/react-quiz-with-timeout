@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { fetchQuizQuestions } from "./API";
 import { Statistic } from "antd";
-import day from "dayjs";
 import "antd/dist/antd.css";
 // Components
 import QuestionCard from "./components/QuestionCard";
@@ -31,14 +30,7 @@ const App: React.FC = () => {
   const [countdownTarget, setCountdownTarget] = useState<number>(0);
   const [deadline, setdeadline] = useState<boolean>(false);
 
-  var checkTimeout: boolean;
-
-  useEffect(() => {
-    checkTimeout = countdownTarget < countdownTarget - 500;
-    console.log(deadline, "deadline");
-  }, [countdownTarget, deadline]);
-
-  console.log(deadline, "deadlinedeadline");
+  useEffect(() => {}, [countdownTarget, deadline]);
 
   const startTrivia = async () => {
     setLoading(true);
@@ -54,7 +46,7 @@ const App: React.FC = () => {
     setLoading(false);
     if (newQuestions) {
       setCountdownTarget(Date.now() + 10 * 1000);
-      // setdeadline(Date.now() + 5 * 1000);
+   
     }
   };
 
@@ -104,17 +96,13 @@ const App: React.FC = () => {
                 prefix="Timer:"
                 valueStyle={{
                   // color: "#ffffff",
-                  color: `${deadline  ? "red" : "#ffffff"}`,
+                  color: `${deadline ? "red" : "#ffffff"}`,
                 }}
                 value={countdownTarget}
                 onFinish={() => nextQuestion()}
                 onChange={(e) => {
-                 
-                  if (e) {
-                    if (e <= 6000) {
-                      // console.log("yawaaaaaaaaaaaa");
-                      setdeadline(true);
-                    }
+                  if (e && e <= 6000) {
+                    setdeadline(true);
                   }
                 }}
               />
@@ -122,11 +110,9 @@ const App: React.FC = () => {
           )}
         </div>
 
-        {console.log(countdownTarget, "countdownTarget")}
-
         {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
           <button className="start" onClick={startTrivia}>
-            Start
+            Begin Quiz
           </button>
         ) : null}
         {!gameOver ? <p className="score">Score: {score}</p> : null}
@@ -149,10 +135,8 @@ const App: React.FC = () => {
           <button
             className="next"
             onClick={(e) => {
-              e.stopPropagation();
-              console.log('johnsonnnnnnnnnn');
+              // e.stopPropagation();
               setdeadline(false)
-              checkTimeout = false;
               nextQuestion();
             }}
           >
